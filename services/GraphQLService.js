@@ -1,6 +1,5 @@
 export default {
-  getCurrentPosition(axios) {
-    console.log('hello')
+  async getCurrentPosition(axios) {
     try {
       let query = `query{
         dataSources{
@@ -19,11 +18,11 @@ export default {
           }
         }
       }`
-      return axios.post('graphql/', {
+      const response = await axios.post('graphql/', {
         query: query
       })
 
-      return Promise.resolve({ lat: 56.059525, lng: -4.823311 })
+      return response.data;
     } catch (e) {
       console.log('err', e)
     }
