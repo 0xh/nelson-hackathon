@@ -19,7 +19,7 @@ export default {
           }
         }
       }`
-      return axios.post('http://pepys.nelson/requests/', {
+      return axios.post('graphql/', {
         query: query
       })
 
