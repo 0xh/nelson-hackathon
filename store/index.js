@@ -40,17 +40,10 @@ export const actions = {
   updateCurrentPosition({ commit }, params) {
     GraphQLService.getCurrentPosition(params.axios).then(
       response => {
+        console.log(response)
         commit("UPDATE_CURRENT_POSITION", response);
       }
     );
-  },
-  updateCurrentPosition({ commit }, params) {
-    //TODO change this out for something sensible.  This is just POC
-
-    commit("UPDATE_CURRENT_POSITION", {
-      lat: 47.41322,
-      lng: -1.219482
-    });
   },
   updateVesselPositions({ commit }, params) {
     //TODO change this out for something sensible.  This is just POC

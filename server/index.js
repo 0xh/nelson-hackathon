@@ -31,6 +31,10 @@ async function start() {
 
   app.post('/graphql', function(req, res) {
     console.log(req.body)
+    res.json({
+      lat: 47.41322,
+      lng: -1.219482
+    });
   });
 
   // Give nuxt middleware to express
