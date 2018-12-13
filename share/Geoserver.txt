@@ -1,0 +1,9 @@
+https://pepys.nelson/geoserver/ows
+layers: 'Hackathon_Geo:GBR_Basemap'
+
+<l-wms-tile-layer
+        :base-url="https://pepys.nelson/geoserver/ows"
+        :layers="Hackathon_Geo:GBR_Basemap"
+        :visible="layer.visible"
+        :name="GBR Basemap"
+        layer-type="base" />

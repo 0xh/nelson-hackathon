@@ -1,12 +1,15 @@
 <template>
   <div>
-    <h1>ROWER</h1>
+    <h1>Rule-based Offensive Warnings En-Route (ROWER)</h1>
     <section class="container">
-      <rn-button @click="updateCurrentPosition({axios:$axios})">Update Current Position</rn-button>
+      <rn-button @click="updateStore({axios:$axios})">Update Current Position</rn-button>
       <div id="map-wrap" style="height: 600px; width: 100vw;">
         <no-ssr>
           <l-map :zoom="13" :center="getCurrentPosition">
             <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"/>
+            <li v-for="pos in getVesselPositions" :key="pos.lat">
+              <l-marker :lat-lng="pos"/>
+            </li>
             <l-marker :lat-lng="getCurrentPosition"/>
           </l-map>
         </no-ssr>
@@ -19,10 +22,10 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["getCurrentPosition"])
+    ...mapGetters(["getCurrentPosition", "getVesselPositions"])
   },
   methods: {
-    ...mapActions(["updateCurrentPosition"])
+    ...mapActions(["updateStore"])
   }
 };
 </script>
