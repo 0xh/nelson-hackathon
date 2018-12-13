@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "@nuxtjs/apollo": "^4.0.0-rc1",
+    "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/font-awesome": "^1.0.3",
     "@nuxtjs/proxy": "^1.1.3",
     "@nuxtjs/pwa": "^2.0.8",

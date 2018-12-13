@@ -77,7 +77,8 @@ export default {
     "@nuxtjs/font-awesome",
     "@nuxtjs/apollo",
     ["@nuxtjs/pwa", { onesignal: false }],
-    "nuxt-leaflet"
+    "nuxt-leaflet",
+    "@nuxtjs/axios"
   ],
 
   apollo: {

@@ -2,6 +2,7 @@
   <div>
     <h1>ROWER</h1>
     <section class="container">
+      <rn-button @click="updateCurrentPosition({axios:$axios})">Update Current Position</rn-button>
       <div id="map-wrap" style="height: 600px; width: 100vw;">
         <no-ssr>
           <l-map :zoom="13" :center="getCurrentPosition">
@@ -19,6 +20,9 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
     ...mapGetters(["getCurrentPosition"])
+  },
+  methods: {
+    ...mapActions(["updateCurrentPosition"])
   }
 };
 </script>
