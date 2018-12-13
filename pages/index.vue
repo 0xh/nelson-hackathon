@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>ROWER</h1>
+    <h1>Rule-based Offensive Warnings En-Route (ROWER)</h1>
     <section class="container">
       <rn-button @click="updateCurrentPosition({axios:$axios})">Update Current Position</rn-button>
       <div id="map-wrap" style="height: 600px; width: 100vw;">
