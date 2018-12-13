@@ -1,22 +1,20 @@
-import pkg from './package.json'
+import pkg from "./package.json";
 
 export default {
   /**
    * Router config
    */
   router: {
-    middleware: [
-      'index-html-redirect'
-    ]
+    middleware: ["index-html-redirect"]
   },
 
   /**
    * PWA manifest
    */
   manifest: {
-    name: 'NELSON',
-    lang: 'en',
-    display: 'minimal-ui'
+    name: "NELSON",
+    lang: "en",
+    display: "minimal-ui"
   },
 
   /**
@@ -25,21 +23,21 @@ export default {
   head: {
     title: pkg.name,
     meta: [
-      { charset: 'utf-8' },
-      { name: 'author', content: 'NELSON' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { charset: "utf-8" },
+      { name: "author", content: "NELSON" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { hid: "description", name: "description", content: pkg.description }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
 
   /**
    * Custom plugins
    */
   plugins: [
-    '~/plugins/anchor',
-    '~/plugins/event-bus.js',
-    '~/plugins/vuex-router-sync.js'
+    "~/plugins/anchor",
+    "~/plugins/event-bus.js",
+    "~/plugins/vuex-router-sync.js"
   ],
 
   /**
@@ -51,44 +49,42 @@ export default {
    * Build configuration (webpack extension)
    */
   build: {
-    postcss: [
-      require('autoprefixer')(),
-      require('postcss-clean')()
-    ],
+    postcss: [require("autoprefixer")(), require("postcss-clean")()],
 
     plugins: [
       //
     ],
 
-    extend (config, { isDev }) {
+    extend(config, { isDev }) {
       // Run ESLint on save
       if (isDev && process.client) {
         config.module.rules.push({
-          enforce: 'pre',
+          enforce: "pre",
           test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
+          loader: "eslint-loader",
           exclude: /(node_modules)/
-        })
+        });
       }
     }
   },
 
   generate: {
-    dir: 'dist'
+    dir: "dist"
   },
 
   modules: [
     // ['@nuxtjs/proxy', { pathRewrite: { '^/api/': '/' }, secure: false }],
-    '@nuxtjs/font-awesome',
-    '@nuxtjs/apollo',
-    ['@nuxtjs/pwa', { onesignal: false }]
+    "@nuxtjs/font-awesome",
+    "@nuxtjs/apollo",
+    ["@nuxtjs/pwa", { onesignal: false }],
+    "nuxt-leaflet"
   ],
 
   apollo: {
     clientConfigs: {
       default: {
         // required
-        httpEndpoint: 'http://localhost:3000'
+        httpEndpoint: "http://localhost:3000"
       }
     }
   },
@@ -100,5 +96,5 @@ export default {
     // '/api/': 'https://hostname'
   },
 
-  mode: 'spa'
-}
+  mode: "spa"
+};

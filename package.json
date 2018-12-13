@@ -88,6 +88,7 @@
     "jest-serializer-vue": "^0.3.0",
     "normalize.css": "^7.0.0",
     "nuxt": "^2.2.0",
+    "nuxt-leaflet": "0.0.10",
     "ramda": "^0.25.0",
     "vue-apollo": "^3.0.0-beta.19",
     "vue-chartjs": "^3.4.0",
