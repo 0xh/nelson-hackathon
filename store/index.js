@@ -9,7 +9,8 @@ export const state = () => ({
   currentPosition: {
     lat: 37.41322,
     lng: -1.219482
-  }
+  },
+  vesselPositions: []
 });
 
 export const types = {
@@ -20,13 +21,18 @@ export const getters = {
   getCurrentPosition: state => [
     state.currentPosition.lat,
     state.currentPosition.lng
-  ]
+  ],
+  getVesselPositions: state =>
+    state.vesselPositions.map(pos => [pos.lat, pos.lng])
 };
 
 export const mutations = {
   UPDATE_CURRENT_POSITION(state, latlng) {
     state.currentPosition.lat = latlng.lat;
     state.currentPosition.lng = latlng.lng;
+  },
+  UPDATE_VESSEL_POSITIONS(state, positions) {
+    state.vesselPositions = positions;
   }
 };
 
@@ -45,6 +51,24 @@ export const actions = {
       lat: 47.41322,
       lng: -1.219482
     });
+  },
+  updateVesselPositions({ commit }, params) {
+    //TODO change this out for something sensible.  This is just POC
+
+    commit("UPDATE_VESSEL_POSITIONS", [
+      {
+        lat: 47.41422,
+        lng: -1.218482
+      },
+      {
+        lat: 47.41222,
+        lng: -1.329482
+      }
+    ]);
+  },
+  updateStore({ dispatch }, params) {
+    dispatch("updateCurrentPosition", params);
+    dispatch("updateVesselPositions", params);
   }
 };
 
