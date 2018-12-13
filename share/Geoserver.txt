@@ -1,0 +1,2 @@
+https://pepys.nelson/geoserver/ows
+layers: 'Hackathon_Geo:GBR_Basemap'
