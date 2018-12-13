@@ -62,7 +62,7 @@ export const actions = {
       },
       {
         lat: 47.41222,
-        lng: -1.329482
+        lng: -1.229482
       }
     ]);
   },
