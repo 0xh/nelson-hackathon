@@ -59,11 +59,6 @@
   "lint-staged": {
     "*.@(js|vue)": "eslint"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "dependencies": {
     "@nuxtjs/apollo": "^4.0.0-rc1",
     "@nuxtjs/font-awesome": "^1.0.3",
