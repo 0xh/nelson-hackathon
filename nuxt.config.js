@@ -1,6 +1,6 @@
-import pkg from "./package.json";
+const pkg = require('./package')
 
-export default {
+module.exports = {
   /**
    * Router config
    */
