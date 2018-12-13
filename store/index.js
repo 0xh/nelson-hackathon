@@ -31,20 +31,12 @@ export const mutations = {
 };
 
 export const actions = {
-  getCurrentPosition({ commit }, params) {
-    GraphQLService.getCurrentPosition(params.axios, params.type).then(
+  updateCurrentPosition({ commit }, params) {
+    GraphQLService.getCurrentPosition(params.axios).then(
       response => {
         commit("UPDATE_CURRENT_POSITION", response);
       }
     );
-  },
-  updateCurrentPosition({ commit }, params) {
-    //TODO change this out for something sensible.  This is just POC
-
-    commit("UPDATE_CURRENT_POSITION", {
-      lat: 47.41322,
-      lng: -1.219482
-    });
   }
 };
 
