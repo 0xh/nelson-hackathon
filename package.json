@@ -1,0 +1,130 @@
+{
+  "name": "nelson-boilerplate",
+  "version": "0.0.0",
+  "description": "Nelson Boilerplate",
+  "author": "Nelson",
+  "contributors": [
+    "Alex Foxleigh <alex.foxleigh@bbqdigital.com> (https://alexfoxleigh.com)",
+    "Ed Poole <ed@edpoole.me> (https://edpoole.me)",
+    "Tom Humphris <tom@muska.co.uk> (https://tomhumphris.me/)",
+    "Zac Tolley <zac@thetolleys.com> (https://github.com/ztolley)"
+  ],
+  "private": true,
+  "scripts": {
+    "dev": "PORT=5000 nuxt",
+    "dev-debug": "node --inspect node_modules/.bin/nuxt",
+    "build": "nuxt build",
+    "start": "PORT=5000 nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue .",
+    "test": "jest --silent --testPathIgnorePatterns=\"e2e\"",
+    "test:watch": "jest --silent --watch --testPathIgnorePatterns=\"e2e\"",
+    "test:e2e": "jest --silent --testPathPattern=\"e2e\"",
+    "test:ci": "jest --ci --reporters=default --reporters=jest-junit --testPathIgnorePatterns=\"e2e\"",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "generate-fragmentTypes": "node ./build/generate-fragmentTypes.js"
+  },
+  "config": {
+    "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": true
+  },
+  "jest": {
+    "verbose": false,
+    "moduleFileExtensions": [
+      "js",
+      "vue",
+      "json"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/$1"
+    },
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+    },
+    "transformIgnorePatterns": [],
+    "snapshotSerializers": [
+      "<rootDir>/node_modules/jest-serializer-vue"
+    ],
+    "setupFiles": [
+      "<rootDir>/__tests__/setupFile.js",
+      "jest-localstorage-mock"
+    ],
+    "testEnvironment": "jest-environment-jsdom-global",
+    "testMatch": [
+      "**/?(*.)(spec|test).js?(x)"
+    ]
+  },
+  "lint-staged": {
+    "*.@(js|vue)": "eslint"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "dependencies": {
+    "@nuxtjs/apollo": "^4.0.0-rc1",
+    "@nuxtjs/font-awesome": "^1.0.3",
+    "@nuxtjs/proxy": "^1.1.3",
+    "@nuxtjs/pwa": "^2.0.8",
+    "@nuxtjs/router": "^1.0.1",
+    "anchor": "git+ssh://git@git.nelson.rn:10022/nelson/anchor.git",
+    "apollo-cache-inmemory": "^1.2.8",
+    "apollo-client": "^2.4.0",
+    "apollo-link": "^1.2.2",
+    "apollo-link-http": "^1.5.4",
+    "axios": "^0.17.1",
+    "babel-core": "^7.0.0-bridge.0",
+    "bedrock": "git+ssh://git@git.nelson.rn:10022/nelson/bedrock.git",
+    "chart.js": "^2.7.3",
+    "graphql-tag": "^2.9.2",
+    "jest": "^23.1.0",
+    "jest-cli": "^23.1.0",
+    "jest-environment-jsdom": "^22.0.4",
+    "jest-environment-jsdom-global": "^1.0.2",
+    "jest-localstorage-mock": "^2.1.0",
+    "jest-serializer-vue": "^0.3.0",
+    "normalize.css": "^7.0.0",
+    "nuxt": "^2.2.0",
+    "ramda": "^0.25.0",
+    "vue-apollo": "^3.0.0-beta.19",
+    "vue-chartjs": "^3.4.0",
+    "vue-svgicon": "^3.2.2",
+    "vuex-router-sync": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@storybook/addon-actions": "^3.4.10",
+    "@storybook/addon-links": "^3.4.10",
+    "@storybook/addons": "^3.4.8",
+    "@storybook/vue": "^3.4.10",
+    "autoprefixer": "^7.2.3",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-component": "^0.10.1",
+    "babel-preset-vue": "^2.0.2",
+    "eslint": "^5.9.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^4.7.1",
+    "graphql": "^14.0.2",
+    "husky": "^1.2.0",
+    "jest-junit": "^5.2.0",
+    "lint-staged": "^8.1.0",
+    "node-sass": "^4.7.2",
+    "postcss-clean": "^1.1.0",
+    "puppeteer": "^1.8.0",
+    "sass-loader": "^6.0.6",
+    "vue-jest": "^3.0.0",
+    "vue-server-renderer": "2.5.17",
+    "vue-style-loader": "^3.0.3",
+    "vue-test-utils": "^1.0.0-beta.9",
+    "webpack": "^4.23.1",
+    "write-file-webpack-plugin": "^4.3.2"
+  }
+}

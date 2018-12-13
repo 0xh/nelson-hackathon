@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppLogo.vue snapshot: has same HTML structure 1`] = `<div class="logo"><img src="~/static/png/nelson-logo.png" alt="Nelson Logo" class="logo-image"></div>`;

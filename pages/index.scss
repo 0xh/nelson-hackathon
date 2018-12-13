@@ -1,0 +1,20 @@
+@import "~bedrock/bedrock.scss";
+
+.container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.title {
+  @include font-size("xl");
+  display: block;
+  margin: 20px 0 0 0;
+}
+
+.subtitle {
+  @include font-size("l");
+  margin: 10px 0 15px 0;
+}

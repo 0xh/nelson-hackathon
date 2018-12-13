@@ -1,0 +1,4 @@
+{
+  "LOGGING": "DEBUG",
+  "CHROMIUM_BIN_PATH": "/usr/bin/chromium-browser"
+}
