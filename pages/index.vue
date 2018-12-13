@@ -6,7 +6,12 @@
       <div id="map-wrap" style="height: 600px; width: 100vw;">
         <no-ssr>
           <l-map :zoom="13" :center="getCurrentPosition">
-            <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"/>
+            <l-wms-tile-layer
+              base-url="https://pepys.nelson/geoserver/ows"
+              layers="Hackathon_Geo:GBR_Basemap"
+              visible="true"
+              name="GBR Basemap"
+              layer-type="base" />
             <li v-for="pos in getVesselPositions" :key="pos.lat">
               <l-marker :lat-lng="pos"/>
             </li>
