@@ -1,0 +1,88 @@
+query{
+  dataSources(id: "80f486a257624523946c5e80b0fcbe89") {
+    ... on AisDataSource{
+      messages(type: Position) {
+        ... on AisPositionBroadcast {
+          mmsi
+          receivedTime
+          position {
+            latitude
+            longitude
+          }
+          heading
+          velocity {
+            course
+            speed
+          }
+        }
+      }
+    }
+  }
+}
+
+{
+  dataSources(id: "107893f3155a4ff5b725be4c1d85aadb") {
+    ... on RadarTrackDataSource {
+      sensorTracks {
+        timeOfInformation
+        receivedTime
+        position {
+          ... on WGS84Position {
+            latitude
+            longitude
+          }
+        }
+        velocity {
+          ... on WGS84Velocity {
+            course
+            speed
+          }
+        }
+      }
+    }
+  }
+}
+
+query{
+  dataSources{
+    ... on NavigationDataSource{
+      navigationUpdates(type: Position) {
+        ... on NavigationPosition{
+          timeOfInformation
+          position{
+            ... on WGS84Position{
+              latitude
+              longitude
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+query{
+  dataSources(id:"07b6df858018425d96f6d10a77034bbf"){
+    ... on NavigationDataSource{
+      navigationUpdates(type: Velocity) {
+        ... on NavigationVelocity{
+          timeOfInformation
+          absoluteVelocity{
+            ... on WGS84Velocity{
+              speed
+              course
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+Example filter:
+
+messages(type: Position, filter: {geoFilter: {radius: 500, centre: {lat: 56.63949666666667, lon: -8.10879333333332}}, receivedTime: {timeGte: "2018-04-30T14:51:20.000Z", timeLt: "2018-04-30T16:51:20.000Z"}}) {
+
+POST here: http://pepys.nelson/requests
+
+
