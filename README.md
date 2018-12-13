@@ -58,11 +58,12 @@ For more detailed information about using fragments with the Apollo client see h
 
 https://www.apollographql.com/docs/react/advanced/fragments.html
 
-
 ## Testing
+
 The boilerplate application includes [Jest](https://jestjs.io) for unit testing. Tests can be run one
 time using `npm run test` or in watch mode using `npm run test:watch`.
 
 ## Linting
+
 The project has been setup to lint files using [Standard JS](https://standardjs.com). Prettier JS has not
 been configured at this time. You can run the linter at any time using `npm run lint`.
