@@ -37,8 +37,8 @@ export const mutations = {
 };
 
 export const actions = {
-  getCurrentPosition({ commit }, params) {
-    GraphQLService.getCurrentPosition(params.axios, params.type).then(
+  updateCurrentPosition({ commit }, params) {
+    GraphQLService.getCurrentPosition(params.axios).then(
       response => {
         commit("UPDATE_CURRENT_POSITION", response);
       }
