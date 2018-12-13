@@ -12,6 +12,7 @@
   "private": true,
   "scripts": {
     "dev": "PORT=5000 nuxt",
+    "dev-win": "SET PORT=5000&& nuxt",
     "dev-debug": "node --inspect node_modules/.bin/nuxt",
     "build": "nuxt build",
     "start": "PORT=5000 nuxt start",
