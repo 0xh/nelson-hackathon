@@ -45,7 +45,6 @@ export const getters = {
 export const mutations = {
   UPDATE_CURRENT_POSITION(state, data) {
     var newDataString = JSON.stringify(data);
-    console.log("updating current user position data to:" + newDataString);
     state.currentPosition = data;
   },
   // UPDATE_CURRENT_USER_SHIP_DATA(state, data) {
@@ -62,7 +61,7 @@ export const mutations = {
     state.vesselAisData = data;
   },
   UPDATE_WARNING(state) {
-    state.warning = Math.random() > 0.8
+    state.warning = Math.random() > 0.6
   }
 };
 
@@ -74,7 +73,6 @@ export const actions = {
       lat: response.position.latitude,
       lng: response.position.longitude
     };
-    console.log("current position resp", response);
     commit("UPDATE_CURRENT_POSITION", newData);
     return newData;
   },
@@ -91,7 +89,6 @@ export const actions = {
       params.axios,
       params.currentPosition
     );
-    console.log("vessel ais resp", response);
     if (response && response.length > 0) {
       commit("UPDATE_VESSEL_AIS_DATA", response);
     }

@@ -1,14 +1,16 @@
 <template>
   <div>
-    <section class="container">
+      <rn-alert v-if="getWarning" title="WARNING" state="danger" class="warning">
+        Swarm attack pattern detected
+      </rn-alert>    <section class="container">
       <h1>Rule-based Offensive Warnings En-Route (ROWER)</h1>
       <h2>Swarm Attack Warning Mode</h2>
       <h4>Developed by Admiral Hackbar ("It's a hack!")</h4>
       <rn-button @click="updateStore({axios:$axios})">Update Current Position</rn-button>
       <br>
-      <div id="map-wrap" style="height: 600px; width: 100vw;">
+      <div id="map-wrap" style="height: 400px; width: 1000px;">
         <no-ssr>
-          <l-map :zoom="13" :center="getCurrentPosition">
+          <l-map :zoom="10" :center="getCurrentPosition">
             <l-wms-tile-layer
               base-url="https://pepys.nelson/geoserver/ows"
               layers="Hackathon_Geo:GBR_Basemap"
