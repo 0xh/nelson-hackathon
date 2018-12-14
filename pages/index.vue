@@ -18,7 +18,8 @@
             />
             <!-- <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"/> -->
             <li v-for="pos in getVesselPositions" :key="pos.lat">
-              <l-marker :lat-lng="pos" :icon="detectedShipIcon"/>
+              <l-marker v-if="getWarning && Math.random() > 0.5" :lat-lng="pos" :icon="shipWarningIcon"/>
+              <l-marker v-else :lat-lng="pos" :icon="detectedShipIcon"/> 
             </li>
             <l-marker :lat-lng="getCurrentPosition" :icon="userShipIcon">
               <!-- <l-popup :content="getCurrentUserShipDataAsString"/> -->
@@ -103,7 +104,8 @@ export default {
     ...mapGetters([
       "getCurrentPosition",
       "getVesselPositions",
-      "getCurrentUserShipDataAsString"
+      "getCurrentUserShipDataAsString",
+      "getWarning"
     ])
   },
   methods: {

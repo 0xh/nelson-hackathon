@@ -16,7 +16,8 @@ export const state = () => ({
     course: 120,
     speed: 5
   },
-  vesselAisData: []
+  vesselAisData: [],
+  warning: false
 });
 
 export const types = {
@@ -37,7 +38,8 @@ export const getters = {
     state.vesselAisData.map(data => [
       data.position.latitude,
       data.position.longitude
-    ])
+    ]),
+  getWarning: state => state.warning
 };
 
 export const mutations = {
@@ -58,6 +60,9 @@ export const mutations = {
   // },
   UPDATE_VESSEL_AIS_DATA(state, data) {
     state.vesselAisData = data;
+  },
+  UPDATE_WARNING(state) {
+    state.warning = Math.random() > 0.8
   }
 };
 
@@ -91,11 +96,15 @@ export const actions = {
       commit("UPDATE_VESSEL_AIS_DATA", response);
     }
   },
+  updateWarning({ commit }) {
+    commit("UPDATE_WARNING")
+  },
   async updateStore({ dispatch }, params) {
     var currentPosition = await dispatch("updateCurrentPosition", params);
     params.currentPosition = currentPosition;
     dispatch("updateVesselAisData", params);
     dispatch("updateCurrentShipUserData", params);
+    dispatch("updateWarning");
   }
 };
 

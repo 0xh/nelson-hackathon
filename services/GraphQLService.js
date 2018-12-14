@@ -59,7 +59,6 @@ export default {
           }
         }
       }`;
-      console.log("vessel ais query is:" + query);
 
       const response = await axios.post("https://pepys.nelson/requests", {
         query: query
