@@ -3,13 +3,6 @@
     <section class="container">
       <h1>Rule-based Offensive Warnings En-Route (ROWER)</h1>
       <h2>Developed by Admiral Hackbar ("It's a hack!")</h2>
-      <ul>
-        <li v-if="loading">Loading...</li>
-        <li
-          v-for="source in dataSources"
-          :key="source.timeOfInformation"
-        >{{source.timeOfInformation}}</li>
-      </ul>
       <rn-button @click="updateStore({axios:$axios})">Update Current Position</rn-button>
       <br>
       <div id="map-wrap" style="height: 600px; width: 100vw;">
@@ -86,6 +79,8 @@ export default {
   },
   data() {
     return {
+      loading: 0,
+      dataSources: [],
       userShipIcon: L.icon({
         iconUrl: "/svg/boat.svg",
         iconSize: [42, 47],
@@ -113,10 +108,6 @@ export default {
   methods: {
     ...mapActions(["updateStore"])
   },
-  data: () => ({
-    loading: 0,
-    dataSources: []
-  }),
   apollo: {
     $loadingKey: "loading",
     dataSources: {
