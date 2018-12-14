@@ -23,9 +23,13 @@
               <l-marker v-if="getWarning && Math.random() > 0.5" :lat-lng="pos" :icon="shipWarningIcon"/>
               <l-marker v-else :lat-lng="pos" :icon="detectedShipIcon"/> 
             </li>
-            <l-marker :lat-lng="getCurrentPosition" :icon="userShipIcon">
-              <!-- <l-popup :content="getCurrentUserShipDataAsString"/> -->
-            </l-marker>
+            <l-marker :lat-lng="getCurrentPosition" :icon="userShipIcon"/>
+            <li v-for="pos in getFutureCourse" :key="pos[0]">
+              <l-marker :lat-lng="pos" :icon="userShipIcon"/>
+            </li>
+            <!-- <l-polyline :lat-lngs="getCurrentCourse" color="green"/> -->
+            <!-- <l-polyline :lat-lngs="getFutureCourse" color="blue"/> -->
+            <!-- <l-popup :content="getCurrentUserShipDataAsString"/> -->
           </l-map>
         </no-ssr>
       </div>
@@ -69,6 +73,7 @@ import {
   LWMSTileLayer,
   LMarker,
   LIcon,
+  LPolyline,
   LPopup
 } from "vue2-leaflet";
 
@@ -79,6 +84,7 @@ export default {
     LMarker,
     "l-wms-tile-layer": LWMSTileLayer,
     LIcon,
+    LPolyline,
     LPopup
   },
   data() {
@@ -105,7 +111,10 @@ export default {
   computed: {
     ...mapGetters([
       "getCurrentPosition",
+      "getCurrentVelocity",
       "getVesselPositions",
+      "getCurrentCourse",
+      "getFutureCourse",
       "getCurrentUserShipDataAsString",
       "getWarning"
     ])

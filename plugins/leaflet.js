@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
+import { LMap, LTileLayer, LMarker, LPopup, LPolyline } from "vue2-leaflet";
 
 import L from "leaflet";
 delete L.Icon.Default.prototype._getIconUrl;
@@ -14,3 +14,4 @@ Vue.component("l-map", LMap);
 Vue.component("l-tilelayer", LTileLayer);
 Vue.component("l-marker", LMarker);
 Vue.component("l-popup", LPopup);
+Vue.component("l-polyline", LPolyline);
