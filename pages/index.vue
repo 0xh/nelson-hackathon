@@ -7,8 +7,8 @@
       class="warning"
     >Swarm attack pattern detected</rn-alert>
     <section class="container">
-      <h1>Rule-based Offensive Warnings En-Route (ROWER)</h1>
-      <h2>Swarm Attack Warning Mode</h2>
+      <h2>Rule-based Offensive Warnings En-Route (ROWER)</h2>
+      <h3>Swarm Attack Warning Mode</h3>
       <br>
       <div id="map-wrap" style="height: 500px; width: 1000px;">
         <no-ssr>
