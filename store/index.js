@@ -8,14 +8,15 @@ import GraphQLService from "../services/GraphQLService";
 export const state = () => ({
   currentPosition: {
     lat: 37.41322,
-    lng: -1.219482
+    lng: -1.219482,
+    timeOfInformation: ""
   },
   currentUserShipData: {
     timeOfInformation: "10:00:00 14/12/2018 GMT",
     course: 120,
     speed: 5
   },
-  vesselPositions: []
+  vesselAisData: []
 });
 
 export const types = {
@@ -33,57 +34,64 @@ export const getters = {
     Course: ${state.currentUserShipData.course}
     Speed: ${state.currentUserShipData.speed} knots`,
   getVesselPositions: state =>
-    state.vesselPositions.map(pos => [pos.lat, pos.lng])
+    state.vesselAisData.map(data => [
+      data.position.latitude,
+      data.position.longitude
+    ])
 };
 
 export const mutations = {
-  UPDATE_CURRENT_POSITION(state, latlng) {
-    state.currentPosition.lat = latlng.latitude;
-    state.currentPosition.lng = latlng.longitude;
+  UPDATE_CURRENT_POSITION(state, data) {
+    var newData = {
+      timeOfInformation: data.timeOfInformation,
+      lat: data.position.latitude,
+      lng: data.position.longitude
+    };
+    var newDataString = JSON.stringify(newData);
+    console.log("updating current user position data to:" + newDataString);
+    state.currentPosition = newData;
   },
-  UPDATE_CURRENT_USER_SHIP_DATA(state, data) {
-    state.currentUserShipData = data;
-  },
-  UPDATE_VESSEL_POSITIONS(state, positions) {
-    state.vesselPositions = positions;
+  // UPDATE_CURRENT_USER_SHIP_DATA(state, data) {
+  //   var newData = {
+  //     timeOfInformation: data.timeOfInformation,
+  //     lat: data.position.latitude,
+  //     lng: data.position.longitude
+  //   };
+  //   var newDataString = JSON.stringify(newData);
+  //   console.log("updating user ship data to:" + newDataString);
+  //   state.currentUserShipData = newData;
+  // },
+  UPDATE_VESSEL_AIS_DATA(state, data) {
+    state.vesselAisData = data;
   }
 };
 
 export const actions = {
   updateCurrentPosition({ commit }, params) {
-    GraphQLService.getCurrentPosition(params.axios).then(
-      response => {
-        console.log('resp', response)
-        commit("UPDATE_CURRENT_POSITION", response);
-      }
-    );
+    GraphQLService.getCurrentPosition(params.axios).then(response => {
+      console.log("current position resp", response);
+      commit("UPDATE_CURRENT_POSITION", response);
+    });
   },
   updateCurrentShipUserData({ commit }, params) {
     //TODO change this out for something sensible.
-
-    commit("UPDATE_CURRENT_USER_SHIP_DATA", {
-      timeOfInformation: "10:00:00 14/12/2018 GMT",
-      course: 170,
-      speed: 7
-    });
+    // commit("UPDATE_CURRENT_USER_SHIP_DATA", {
+    //   timeOfInformation: "10:00:00 14/12/2018 GMT",
+    //   course: 170,
+    //   speed: 7
+    // });
   },
-  updateVesselPositions({ commit }, params) {
-    //TODO change this out for something sensible.  This is just POC
-
-    commit("UPDATE_VESSEL_POSITIONS", [
-      {
-        lat: 47.43422,
-        lng: -1.217482
-      },
-      {
-        lat: 47.41222,
-        lng: -1.229482
+  updateVesselAisData({ commit }, params) {
+    GraphQLService.getCurrentVesselAisData(params.axios).then(response => {
+      console.log("vessel ais resp", response);
+      if (response && response.length > 0) {
+        commit("UPDATE_VESSEL_AIS_DATA", response);
       }
-    ]);
+    });
   },
   updateStore({ dispatch }, params) {
     dispatch("updateCurrentPosition", params);
-    dispatch("updateVesselPositions", params);
+    dispatch("updateVesselAisData", params);
     dispatch("updateCurrentShipUserData", params);
   }
 };
