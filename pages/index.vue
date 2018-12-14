@@ -4,8 +4,6 @@
       <h1>Rule-based Offensive Warnings En-Route (ROWER)</h1>
       <h2>Developed by Admiral Hackbar ("It's a hack!")</h2>
       <rn-button @click="updateStore({axios:$axios})">Update Current Position</rn-button>
-      <p>{{getCurrentCourse}}</p>
-      <b>{{getFutureCourse}}</b>
       <br>
       <div id="map-wrap" style="height: 600px; width: 100vw;">
         <no-ssr>
