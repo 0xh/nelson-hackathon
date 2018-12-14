@@ -39,7 +39,7 @@ export const getters = {
   getCurrentCourse: state => state.course,
   getFutureCourse: state => {
     console.log("getting future course:", state.futureCourse)
-    var futureCourse = state.futureCourse.map(course => [course.lat, course.lng])
+    var futureCourse = state.futureCourse.map(course => [course[0], course[1]])
     console.log("future course: ", futureCourse)
     return futureCourse
   },
@@ -72,10 +72,18 @@ export const mutations = {
   UPDATE_FUTURE_COURSE(state, velocity) {
     const lastpos = state.course.pop();
     const lastPoint = {lat: lastpos[0], lon: lastpos[1]}
-    const dist = 12345;
+    const dist = 500;
     const bearing = velocity.course;
-    const predictedCourse = geolib.computeDestinationPoint(lastPoint, dist, bearing);
-    state.futureCourse = [{lat:lastpos[0], lng:lastpos[1]}, {lat: predictedCourse.latitude, lng: predictedCourse.longitude}] //[lastpos, [predictedCourse.latitude, predictedCourse.longitude]]
+    let predictedCourse;
+    let futureCourse = [];
+    futureCourse.push(lastpos)
+
+    for(var i = 0; i< 10; i++) {
+      predictedCourse = geolib.computeDestinationPoint(lastPoint, dist + (i * 500), bearing);
+      futureCourse.push([predictedCourse.latitude, predictedCourse.longitude])
+    }
+    //state.futureCourse = [{lat:lastpos[0], lng:lastpos[1]}, {lat: predictedCourse.latitude, lng: predictedCourse.longitude}] //[lastpos, [predictedCourse.latitude, predictedCourse.longitude]]
+    state.futureCourse = futureCourse;
     console.log('state.futureCourse', state.futureCourse)
   },
   UPDATE_VESSEL_POSITIONS(state, positions) {

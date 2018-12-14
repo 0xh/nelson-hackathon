@@ -5,7 +5,6 @@
       <h2>Swarm Attack Warning Mode</h2>
       <h4>Developed by Admiral Hackbar ("It's a hack!")</h4>
       <rn-button @click="updateStore({axios:$axios})">Update Current Position</rn-button>
-      <b>{{getFutureCourse}}</b>
       <br>
       <div id="map-wrap" style="height: 600px; width: 100vw;">
         <no-ssr>
@@ -22,6 +21,9 @@
               <l-marker :lat-lng="pos" :icon="detectedShipIcon"/>
             </li>
             <l-marker :lat-lng="getCurrentPosition" :icon="userShipIcon"/>
+            <li v-for="pos in getFutureCourse" :key="pos[0]">
+              <l-marker :lat-lng="pos" :icon="userShipIcon"/>
+            </li>
             <!-- <l-polyline :lat-lngs="getCurrentCourse" color="green"/> -->
             <!-- <l-polyline :lat-lngs="getFutureCourse" color="blue"/> -->
             <!-- <l-popup :content="getCurrentUserShipDataAsString"/> -->
