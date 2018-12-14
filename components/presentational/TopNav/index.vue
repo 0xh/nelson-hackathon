@@ -17,19 +17,11 @@ export default {
       navItems: [
         {
           url: '/',
-          label: 'Home'
+          label: 'Export Warning Report to C2'
         },
         {
-          url: '/chart',
-          label: 'Link 1'
-        },
-        {
-          url: '/example2',
-          label: 'Link 2'
-        },
-        {
-          url: '/example3',
-          label: 'Link 3'
+          url: '/',
+          label: 'Enemy Tactics Editor'
         }
       ]
     }
