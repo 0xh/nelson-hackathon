@@ -1,4 +1,4 @@
-const pkg = require('./package')
+const pkg = require("./package");
 
 module.exports = {
   /**
@@ -37,7 +37,8 @@ module.exports = {
   plugins: [
     "~/plugins/anchor",
     "~/plugins/event-bus.js",
-    "~/plugins/vuex-router-sync.js"
+    "~/plugins/vuex-router-sync.js",
+    { src: "~plugins/leaflet.js", ssr: false }
   ],
 
   /**

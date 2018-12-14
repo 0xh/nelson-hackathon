@@ -6,16 +6,18 @@
       <div id="map-wrap" style="height: 600px; width: 100vw;">
         <no-ssr>
           <l-map :zoom="13" :center="getCurrentPosition">
-            <l-wms-tile-layer
+            <!-- <l-wms-tile-layer
               base-url="https://pepys.nelson/geoserver/ows"
               layers="Hackathon_Geo:GBR_Basemap"
-              visible="true"
+              :visible="true"
               name="GBR Basemap"
-              layer-type="base" />
+              layer-type="base"
+            />-->
+            <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"/>
             <li v-for="pos in getVesselPositions" :key="pos.lat">
-              <l-marker :lat-lng="pos"/>
+              <l-marker :lat-lng="pos" :icon="icon"/>
             </li>
-            <l-marker :lat-lng="getCurrentPosition"/>
+            <l-marker :lat-lng="getCurrentPosition" :icon="icon"/>
           </l-map>
         </no-ssr>
       </div>
@@ -25,7 +27,25 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import { LMap, LTileLayer, LWMSTileLayer, LMarker, LIcon } from "vue2-leaflet";
+
 export default {
+  components: {
+    LMap,
+    LTileLayer,
+    LMarker,
+    "l-wms-tile-layer": LWMSTileLayer,
+    LIcon
+  },
+  data() {
+    return {
+      icon: L.icon({
+        iconUrl: "/svg/boat.svg",
+        iconSize: [32, 37],
+        iconAnchor: [16, 37]
+      })
+    };
+  },
   computed: {
     ...mapGetters(["getCurrentPosition", "getVesselPositions"])
   },
