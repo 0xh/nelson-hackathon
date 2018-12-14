@@ -85,7 +85,7 @@ module.exports = {
     clientConfigs: {
       default: {
         // required
-        httpEndpoint: "http://localhost:3000"
+        httpEndpoint: "https://pepys.nelson/requests"
       }
     }
   },

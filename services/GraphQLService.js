@@ -1,3 +1,5 @@
+import ApolloClient from "apollo-boost";
+
 export default {
   async getCurrentPosition(axios) {
     try {
@@ -18,10 +20,11 @@ export default {
           }
         }
       }`
-      const response = await axios.post('graphql/', {
+
+      const response = await axios.post('https://pepys.nelson/requests', {
         query: query
       })
-
+      console.log('thing', response)
       return response.data;
     } catch (e) {
       console.log('err', e)

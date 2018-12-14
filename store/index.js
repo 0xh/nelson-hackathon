@@ -40,7 +40,7 @@ export const actions = {
   updateCurrentPosition({ commit }, params) {
     GraphQLService.getCurrentPosition(params.axios).then(
       response => {
-        console.log(response)
+        console.log('resp', response)
         commit("UPDATE_CURRENT_POSITION", response);
       }
     );

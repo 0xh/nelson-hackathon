@@ -5,6 +5,7 @@ const { Nuxt, Builder } = require('nuxt')
 const app = express()
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
+const axios = require('axios')
 
 app.set('port', port)
 
@@ -30,11 +31,16 @@ async function start() {
   });
 
   app.post('/graphql', function(req, res) {
-    console.log(req.body)
-    res.json({
-      lat: 47.41322,
-      lng: -1.219482
-    });
+    // console.log(req.body)
+    // res.json({
+    //   lat: 47.41322,
+    //   lng: -1.219482
+    // });
+
+    return axios.post('http://pepys.nelson/requests', {
+      rejectUnauthorized: false,
+      query: req.body
+    })
   });
 
   // Give nuxt middleware to express
