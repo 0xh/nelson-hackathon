@@ -7,8 +7,8 @@
       class="warning"
     >Swarm attack pattern detected</rn-alert>
     <section class="container">
-      <h1>Rule-based Offensive Warnings En-Route (ROWER)</h1>
-      <h2>Swarm Attack Warning Mode</h2>
+      <br>
+      <h3>Rule-based Offensive Warnings En-Route (ROWER)</h3>
       <br>
       <div id="map-wrap" style="height: 500px; width: 1000px;">
         <no-ssr>
@@ -45,9 +45,8 @@
           </l-map>
         </no-ssr>
       </div>
-      <br />
+      <br>
       <rn-button @click="updateStore({axios:$axios})">Update Current Position</rn-button>
-
     </section>
   </div>
 </template>
