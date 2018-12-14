@@ -9,7 +9,8 @@ import geolib from "geolib";
 export const state = () => ({
   currentPosition: {
     lat: 37.41322,
-    lng: -1.219482
+    lng: -1.219482,
+    timeOfInformation: ""
   },
   currentVelocity: {
     course: 50,
@@ -17,7 +18,13 @@ export const state = () => ({
   },
   futureCourse: [],
   course: [[37.41322, -1.219482]],
-  vesselPositions: []
+  vesselPositions: [],
+  currentUserShipData: {
+    timeOfInformation: "10:00:00 14/12/2018 GMT",
+    course: 120,
+    speed: 5
+  },
+  vesselAisData: []
 });
 
 export const types = {
@@ -30,19 +37,33 @@ export const getters = {
     state.currentPosition.lng
   ],
   getCurrentCourse: state => state.course,
-  getFutureCourse: state => state.futureCourse,
+  getFutureCourse: state => {
+    console.log("getting future course:", state.futureCourse)
+    var futureCourse = state.futureCourse.map(course => [course.lat, course.lng])
+    console.log("future course: ", futureCourse)
+    return futureCourse
+  },
   getCurrentVelocity: state => state.currentVelocity,
+  getCurrentUserShipDataAsString: state =>
+    `Current ship data:
+    Time: ${state.currentUserShipData.timeOfInformation}
+    Course: ${state.currentUserShipData.course}
+    Speed: ${state.currentUserShipData.speed} knots`,
   getVesselPositions: state =>
-    state.vesselPositions.map(pos => [pos.lat, pos.lng])
+    state.vesselAisData.map(data => [
+      data.position.latitude,
+      data.position.longitude
+    ])
 };
 
 export const mutations = {
-  UPDATE_CURRENT_POSITION(state, latlng) {
-    state.currentPosition.lat = latlng.latitude;
-    state.currentPosition.lng = latlng.longitude;
+  UPDATE_CURRENT_POSITION(state, data) {
+    var newDataString = JSON.stringify(data);
+    console.log("updating current user position data to:" + newDataString);
+    state.currentPosition = data;
   },
   UPDATE_COURSE(state, latlng) {
-    state.course.push([latlng.latitude, latlng.longitude])
+    state.course.push([latlng.lat, latlng.lng])
   },
   UPDATE_CURRENT_VELOCITY(state, velocity) {
     state.currentVelocity.course = velocity.course
@@ -54,49 +75,79 @@ export const mutations = {
     const dist = 12345;
     const bearing = velocity.course;
     const predictedCourse = geolib.computeDestinationPoint(lastPoint, dist, bearing);
-    state.futureCourse = [lastpos, [predictedCourse.latitude, predictedCourse.longitude]]
+    state.futureCourse = [{lat:lastpos[0], lng:lastpos[1]}, {lat: predictedCourse.latitude, lng: predictedCourse.longitude}] //[lastpos, [predictedCourse.latitude, predictedCourse.longitude]]
+    console.log('state.futureCourse', state.futureCourse)
   },
   UPDATE_VESSEL_POSITIONS(state, positions) {
     state.vesselPositions = positions;
+  },
+  // UPDATE_CURRENT_USER_SHIP_DATA(state, data) {
+  //   var newData = {
+  //     timeOfInformation: data.timeOfInformation,
+  //     lat: data.position.latitude,
+  //     lng: data.position.longitude
+  //   };
+  //   var newDataString = JSON.stringify(newData);
+  //   console.log("updating user ship data to:" + newDataString);
+  //   state.currentUserShipData = newData;
+  // },
+  UPDATE_VESSEL_AIS_DATA(state, data) {
+    state.vesselAisData = data;
   }
 };
 
 export const actions = {
-  updateCurrentPosition({ commit }, params) {
-    GraphQLService.getCurrentPosition(params.axios).then(
-      response => {
-        commit("UPDATE_CURRENT_POSITION", response);
-        commit("UPDATE_COURSE", response);
-      }
-    );
-  },
-  updateCurrentCourse({ commit }, params) {
-    GraphQLService.getCurrentVelocity(params.axios).then(
-      response => {
-        console.log('resp', response)
-        commit("UPDATE_CURRENT_VELOCITY", response);
-        commit("UPDATE_FUTURE_COURSE", response);
-      }
-    );
-  },
-  updateVesselPositions({ commit }, params) {
-    //TODO change this out for something sensible.  This is just POC
+  //updateCurrentCourse({ commit }, params) {
+    // GraphQLService.getCurrentVelocity(params.axios).then(
+    //   response => {
+    //     console.log('resp', response)
+    //     commit("UPDATE_CURRENT_VELOCITY", response);
+    //     commit("UPDATE_FUTURE_COURSE", response);
+    //   }
+    // );
 
-    commit("UPDATE_VESSEL_POSITIONS", [
-      {
-        lat: 47.43422,
-        lng: -1.217482
-      },
-      {
-        lat: 47.41222,
-        lng: -1.229482
-      }
-    ]);
+  async updateCurrentCourse({ commit }, params) {
+    var response = await GraphQLService.getCurrentVelocity(params.axios);
+    console.log('resp', response)
+    commit("UPDATE_CURRENT_VELOCITY", response);
+    commit("UPDATE_FUTURE_COURSE", response);
   },
-  updateStore({ dispatch }, params) {
-    dispatch("updateCurrentPosition", params);
+  async updateCurrentPosition({ commit }, params) {
+    var response = await GraphQLService.getCurrentPosition(params.axios);
+    var newData = {
+      timeOfInformation: response.timeOfInformation,
+      lat: response.position.latitude,
+      lng: response.position.longitude
+    };
+    console.log("current position resp", response);
+    commit("UPDATE_CURRENT_POSITION", newData);
+    commit("UPDATE_COURSE", newData);
+    return newData;
+  },
+  updateCurrentShipUserData({ commit }, params) {
+    //TODO change this out for something sensible.
+    // commit("UPDATE_CURRENT_USER_SHIP_DATA", {
+    //   timeOfInformation: "10:00:00 14/12/2018 GMT",
+    //   course: 170,
+    //   speed: 7
+    // });
+  },
+  async updateVesselAisData({ commit }, params) {
+    var response = await GraphQLService.getCurrentVesselAisData(
+      params.axios,
+      params.currentPosition
+    );
+    console.log("vessel ais resp", response);
+    if (response && response.length > 0) {
+      commit("UPDATE_VESSEL_AIS_DATA", response);
+    }
+  },
+  async updateStore({ dispatch }, params) {
+    var currentPosition = await dispatch("updateCurrentPosition", params);
+    params.currentPosition = currentPosition;
+    dispatch("updateVesselAisData", params);
+    dispatch("updateCurrentShipUserData", params);
     dispatch("updateCurrentCourse", params);
-    dispatch("updateVesselPositions", params);
   }
 };
 

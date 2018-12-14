@@ -2,8 +2,10 @@
   <div>
     <section class="container">
       <h1>Rule-based Offensive Warnings En-Route (ROWER)</h1>
-      <h2>Developed by Admiral Hackbar ("It's a hack!")</h2>
+      <h2>Swarm Attack Warning Mode</h2>
+      <h4>Developed by Admiral Hackbar ("It's a hack!")</h4>
       <rn-button @click="updateStore({axios:$axios})">Update Current Position</rn-button>
+      <b>{{getFutureCourse}}</b>
       <br>
       <div id="map-wrap" style="height: 600px; width: 100vw;">
         <no-ssr>
@@ -21,7 +23,7 @@
             </li>
             <l-marker :lat-lng="getCurrentPosition" :icon="userShipIcon"/>
             <!-- <l-polyline :lat-lngs="getCurrentCourse" color="green"/> -->
-            <l-polyline :lat-lngs="getFutureCourse" color="blue"/>
+            <!-- <l-polyline :lat-lngs="getFutureCourse" color="blue"/> -->
           </l-map>
         </no-ssr>
       </div>
@@ -65,6 +67,7 @@ import {
   LWMSTileLayer,
   LMarker,
   LIcon,
+  LPopup,
   LPolyline
 } from "vue2-leaflet";
 
@@ -75,7 +78,8 @@ export default {
     LMarker,
     "l-wms-tile-layer": LWMSTileLayer,
     LIcon,
-    LPolyline
+    LPolyline,
+    LPopup
   },
   data() {
     return {
@@ -83,18 +87,18 @@ export default {
       dataSources: [],
       userShipIcon: L.icon({
         iconUrl: "/svg/boat.svg",
-        iconSize: [42, 47],
-        iconAnchor: [21, 47]
+        iconSize: [42, 48],
+        iconAnchor: [21, 24]
       }),
       detectedShipIcon: L.icon({
         iconUrl: "/svg/information-circle.svg",
-        iconSize: [32, 37],
-        iconAnchor: [16, 37]
+        iconSize: [32, 38],
+        iconAnchor: [16, 19]
       }),
       shipWarningIcon: L.icon({
         iconUrl: "/svg/warning-red.svg",
-        iconSize: [32, 37],
-        iconAnchor: [16, 37]
+        iconSize: [32, 38],
+        iconAnchor: [16, 19]
       })
     };
   },
@@ -104,7 +108,8 @@ export default {
       "getCurrentVelocity",
       "getVesselPositions",
       "getCurrentCourse",
-      "getFutureCourse"
+      "getFutureCourse",
+      "getCurrentUserShipDataAsString"
     ])
   },
   methods: {
