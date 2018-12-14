@@ -1,14 +1,16 @@
 <template>
   <div>
-      <rn-alert v-if="getWarning" title="WARNING" state="danger" class="warning">
-        Swarm attack pattern detected
-      </rn-alert>    <section class="container">
+    <rn-alert
+      v-if="getWarning"
+      title="WARNING"
+      state="danger"
+      class="warning"
+    >Swarm attack pattern detected</rn-alert>
+    <section class="container">
       <h1>Rule-based Offensive Warnings En-Route (ROWER)</h1>
       <h2>Swarm Attack Warning Mode</h2>
-      <h4>Developed by Admiral Hackbar ("It's a hack!")</h4>
-      <rn-button @click="updateStore({axios:$axios})">Update Current Position</rn-button>
       <br>
-      <div id="map-wrap" style="height: 400px; width: 1000px;">
+      <div id="map-wrap" style="height: 500px; width: 1000px;">
         <no-ssr>
           <l-map :zoom="10" :center="getCurrentPosition">
             <l-wms-tile-layer
@@ -20,12 +22,22 @@
             />
             <!-- <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"/> -->
             <li v-for="pos in getVesselPositions" :key="pos.lat">
-              <l-marker v-if="getWarning && Math.random() > 0.5" :lat-lng="pos" :icon="shipWarningIcon"/>
-              <l-marker v-else :lat-lng="pos" :icon="detectedShipIcon"/> 
+              <l-marker
+                v-if="getWarning && Math.random() > 0.5"
+                :lat-lng="pos"
+                :icon="shipWarningIcon"
+              />
+              <l-marker v-else :lat-lng="pos" :icon="detectedShipIcon"/>
             </li>
             <l-marker :lat-lng="getCurrentPosition" :icon="userShipIcon"/>
             <li v-for="pos in getFutureCourse" :key="pos[0]">
-              <l-marker :lat-lng="pos" :icon="userShipIcon" :options="options"/>
+              <l-marker
+                v-if="getWarning && Math.random() > 0.5"
+                :lat-lng="pos"
+                :icon="userShipRedIcon"
+                :options="options"
+              />
+              <l-marker v-else :lat-lng="pos" :icon="userShipIcon" :options="options"/>
             </li>
             <!-- <l-polyline :lat-lngs="getCurrentCourse" color="green"/> -->
             <!-- <l-polyline :lat-lngs="getFutureCourse" color="blue"/> -->
@@ -33,6 +45,9 @@
           </l-map>
         </no-ssr>
       </div>
+      <br />
+      <rn-button @click="updateStore({axios:$axios})">Update Current Position</rn-button>
+
     </section>
   </div>
 </template>
@@ -93,6 +108,11 @@ export default {
       dataSources: [],
       userShipIcon: L.icon({
         iconUrl: "/svg/boat.svg",
+        iconSize: [42, 48],
+        iconAnchor: [21, 24]
+      }),
+      userShipRedIcon: L.icon({
+        iconUrl: "/svg/boatred.svg",
         iconSize: [42, 48],
         iconAnchor: [21, 24]
       }),
