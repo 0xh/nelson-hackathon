@@ -24,7 +24,8 @@ export const state = () => ({
     course: 120,
     speed: 5
   },
-  vesselAisData: []
+  vesselAisData: [],
+  warning: false
 });
 
 export const types = {
@@ -53,13 +54,13 @@ export const getters = {
     state.vesselAisData.map(data => [
       data.position.latitude,
       data.position.longitude
-    ])
+    ]),
+  getWarning: state => state.warning
 };
 
 export const mutations = {
   UPDATE_CURRENT_POSITION(state, data) {
     var newDataString = JSON.stringify(data);
-    console.log("updating current user position data to:" + newDataString);
     state.currentPosition = data;
   },
   UPDATE_COURSE(state, latlng) {
@@ -101,6 +102,9 @@ export const mutations = {
   // },
   UPDATE_VESSEL_AIS_DATA(state, data) {
     state.vesselAisData = data;
+  },
+  UPDATE_WARNING(state) {
+    state.warning = Math.random() > 0.6
   }
 };
 
@@ -127,7 +131,6 @@ export const actions = {
       lat: response.position.latitude,
       lng: response.position.longitude
     };
-    console.log("current position resp", response);
     commit("UPDATE_CURRENT_POSITION", newData);
     commit("UPDATE_COURSE", newData);
     return newData;
@@ -145,16 +148,19 @@ export const actions = {
       params.axios,
       params.currentPosition
     );
-    console.log("vessel ais resp", response);
     if (response && response.length > 0) {
       commit("UPDATE_VESSEL_AIS_DATA", response);
     }
+  },
+  updateWarning({ commit }) {
+    commit("UPDATE_WARNING")
   },
   async updateStore({ dispatch }, params) {
     var currentPosition = await dispatch("updateCurrentPosition", params);
     params.currentPosition = currentPosition;
     dispatch("updateVesselAisData", params);
     dispatch("updateCurrentShipUserData", params);
+    dispatch("updateWarning");
     dispatch("updateCurrentCourse", params);
   }
 };
