@@ -72,14 +72,14 @@ export const mutations = {
   UPDATE_FUTURE_COURSE(state, velocity) {
     const lastpos = state.course.pop();
     const lastPoint = {lat: lastpos[0], lon: lastpos[1]}
-    const dist = 500;
+    const dist = 4500;
     const bearing = velocity.course;
     let predictedCourse;
     let futureCourse = [];
     futureCourse.push(lastpos)
 
-    for(var i = 0; i< 10; i++) {
-      predictedCourse = geolib.computeDestinationPoint(lastPoint, dist + (i * 500), bearing);
+    for(var i = 0; i< 7; i++) {
+      predictedCourse = geolib.computeDestinationPoint(lastPoint, dist + (i * 4500), bearing);
       futureCourse.push([predictedCourse.latitude, predictedCourse.longitude])
     }
     //state.futureCourse = [{lat:lastpos[0], lng:lastpos[1]}, {lat: predictedCourse.latitude, lng: predictedCourse.longitude}] //[lastpos, [predictedCourse.latitude, predictedCourse.longitude]]

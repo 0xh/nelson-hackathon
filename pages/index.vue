@@ -22,7 +22,7 @@
             </li>
             <l-marker :lat-lng="getCurrentPosition" :icon="userShipIcon"/>
             <li v-for="pos in getFutureCourse" :key="pos[0]">
-              <l-marker :lat-lng="pos" :icon="userShipIcon"/>
+              <l-marker :lat-lng="pos" :icon="userShipIcon" :options="options"/>
             </li>
             <!-- <l-polyline :lat-lngs="getCurrentCourse" color="green"/> -->
             <!-- <l-polyline :lat-lngs="getFutureCourse" color="blue"/> -->
@@ -102,7 +102,10 @@ export default {
         iconUrl: "/svg/warning-red.svg",
         iconSize: [32, 38],
         iconAnchor: [16, 19]
-      })
+      }),
+      options: {
+        opacity: 0.5
+      }
     };
   },
   computed: {
