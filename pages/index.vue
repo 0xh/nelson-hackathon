@@ -2,7 +2,8 @@
   <div>
     <section class="container">
       <h1>Rule-based Offensive Warnings En-Route (ROWER)</h1>
-      <h2>Developed by Admiral Hackbar ("It's a hack!")</h2>
+      <h2>Swarm Attack Warning Mode</h2>
+      <h4>Developed by Admiral Hackbar ("It's a hack!")</h4>
       <rn-button @click="updateStore({axios:$axios})">Update Current Position</rn-button>
       <br>
       <div id="map-wrap" style="height: 600px; width: 100vw;">
