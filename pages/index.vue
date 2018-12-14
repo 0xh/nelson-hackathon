@@ -20,7 +20,7 @@
               <l-marker :lat-lng="pos" :icon="detectedShipIcon"/>
             </li>
             <l-marker :lat-lng="getCurrentPosition" :icon="userShipIcon">
-              <l-popup :content="getCurrentUserShipDataAsString"/>
+              <!-- <l-popup :content="getCurrentUserShipDataAsString"/> -->
             </l-marker>
           </l-map>
         </no-ssr>
