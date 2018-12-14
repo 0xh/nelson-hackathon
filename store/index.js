@@ -42,14 +42,9 @@ export const getters = {
 
 export const mutations = {
   UPDATE_CURRENT_POSITION(state, data) {
-    var newData = {
-      timeOfInformation: data.timeOfInformation,
-      lat: data.position.latitude,
-      lng: data.position.longitude
-    };
-    var newDataString = JSON.stringify(newData);
+    var newDataString = JSON.stringify(data);
     console.log("updating current user position data to:" + newDataString);
-    state.currentPosition = newData;
+    state.currentPosition = data;
   },
   // UPDATE_CURRENT_USER_SHIP_DATA(state, data) {
   //   var newData = {
@@ -67,11 +62,16 @@ export const mutations = {
 };
 
 export const actions = {
-  updateCurrentPosition({ commit }, params) {
-    GraphQLService.getCurrentPosition(params.axios).then(response => {
-      console.log("current position resp", response);
-      commit("UPDATE_CURRENT_POSITION", response);
-    });
+  async updateCurrentPosition({ commit }, params) {
+    var response = await GraphQLService.getCurrentPosition(params.axios);
+    var newData = {
+      timeOfInformation: response.timeOfInformation,
+      lat: response.position.latitude,
+      lng: response.position.longitude
+    };
+    console.log("current position resp", response);
+    commit("UPDATE_CURRENT_POSITION", newData);
+    return newData;
   },
   updateCurrentShipUserData({ commit }, params) {
     //TODO change this out for something sensible.
@@ -81,16 +81,19 @@ export const actions = {
     //   speed: 7
     // });
   },
-  updateVesselAisData({ commit }, params) {
-    GraphQLService.getCurrentVesselAisData(params.axios).then(response => {
-      console.log("vessel ais resp", response);
-      if (response && response.length > 0) {
-        commit("UPDATE_VESSEL_AIS_DATA", response);
-      }
-    });
+  async updateVesselAisData({ commit }, params) {
+    var response = await GraphQLService.getCurrentVesselAisData(
+      params.axios,
+      params.currentPosition
+    );
+    console.log("vessel ais resp", response);
+    if (response && response.length > 0) {
+      commit("UPDATE_VESSEL_AIS_DATA", response);
+    }
   },
-  updateStore({ dispatch }, params) {
-    dispatch("updateCurrentPosition", params);
+  async updateStore({ dispatch }, params) {
+    var currentPosition = await dispatch("updateCurrentPosition", params);
+    params.currentPosition = currentPosition;
     dispatch("updateVesselAisData", params);
     dispatch("updateCurrentShipUserData", params);
   }
