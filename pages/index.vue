@@ -17,9 +17,9 @@
             />
             <!-- <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"/> -->
             <li v-for="pos in getVesselPositions" :key="pos.lat">
-              <l-marker :lat-lng="pos" :icon="icon"/>
+              <l-marker :lat-lng="pos" :icon="detectedShipIcon"/>
             </li>
-            <l-marker :lat-lng="getCurrentPosition" :icon="icon"/>
+            <l-marker :lat-lng="getCurrentPosition" :icon="userShipIcon"/>
           </l-map>
         </no-ssr>
       </div>
@@ -41,8 +41,18 @@ export default {
   },
   data() {
     return {
-      icon: L.icon({
+      userShipIcon: L.icon({
         iconUrl: "/svg/boat.svg",
+        iconSize: [42, 47],
+        iconAnchor: [21, 47]
+      }),
+      detectedShipIcon: L.icon({
+        iconUrl: "/svg/information-circle.svg",
+        iconSize: [32, 37],
+        iconAnchor: [16, 37]
+      }),
+      shipWarningIcon: L.icon({
+        iconUrl: "/svg/warning-red.svg",
         iconSize: [32, 37],
         iconAnchor: [16, 37]
       })

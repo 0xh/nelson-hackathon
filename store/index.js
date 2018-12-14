@@ -38,20 +38,18 @@ export const mutations = {
 
 export const actions = {
   updateCurrentPosition({ commit }, params) {
-    GraphQLService.getCurrentPosition(params.axios).then(
-      response => {
-        console.log(response)
-        commit("UPDATE_CURRENT_POSITION", response);
-      }
-    );
+    GraphQLService.getCurrentPosition(params.axios).then(response => {
+      console.log(response);
+      commit("UPDATE_CURRENT_POSITION", response);
+    });
   },
   updateVesselPositions({ commit }, params) {
     //TODO change this out for something sensible.  This is just POC
 
     commit("UPDATE_VESSEL_POSITIONS", [
       {
-        lat: 47.41422,
-        lng: -1.218482
+        lat: 47.43422,
+        lng: -1.217482
       },
       {
         lat: 47.41222,
