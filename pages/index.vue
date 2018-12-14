@@ -1,19 +1,21 @@
 <template>
   <div>
-    <h1>Rule-based Offensive Warnings En-Route (ROWER)</h1>
-    <section class="container">
+     <section class="container">
+      <h1>Rule-based Offensive Warnings En-Route (ROWER)</h1>
+      <h2>Developed by Admiral Hackbar ("It's a hack!")</h2>
       <rn-button @click="updateStore({axios:$axios})">Update Current Position</rn-button>
+      <br>
       <div id="map-wrap" style="height: 600px; width: 100vw;">
         <no-ssr>
           <l-map :zoom="13" :center="getCurrentPosition">
-            <!-- <l-wms-tile-layer
+            <l-wms-tile-layer
               base-url="https://pepys.nelson/geoserver/ows"
               layers="Hackathon_Geo:GBR_Basemap"
               :visible="true"
               name="GBR Basemap"
               layer-type="base"
-            />-->
-            <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"/>
+            />
+            <!-- <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"/> -->
             <li v-for="pos in getVesselPositions" :key="pos.lat">
               <l-marker :lat-lng="pos" :icon="icon"/>
             </li>
