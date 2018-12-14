@@ -38,8 +38,8 @@ export const getters = {
 
 export const mutations = {
   UPDATE_CURRENT_POSITION(state, latlng) {
-    state.currentPosition.lat = latlng.lat;
-    state.currentPosition.lng = latlng.lng;
+    state.currentPosition.lat = latlng.latitude;
+    state.currentPosition.lng = latlng.longitude;
   },
   UPDATE_CURRENT_USER_SHIP_DATA(state, data) {
     state.currentUserShipData = data;
