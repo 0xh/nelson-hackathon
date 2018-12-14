@@ -2,12 +2,14 @@
   <header>
     <a href="/">
       <img src="~/static/png/nelson-logo.png" class="logo-image" alt="Nelson Logo">
-    </a>
+     </a>
 
     <div class="top-nav">
       <rn-nav orientation="horizontal" :navItems="navItems"/>
     </div>
-  </header>
+    
+    <img src="~/static/jpg/ackbar.jpeg" class="logo-image" alt="Hackbar Logo"> 
+ </header>
 </template>
 
 <script>
