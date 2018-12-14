@@ -1,7 +1,8 @@
 <template>
   <div>
-    <h1>Rule-based Offensive Warnings En-Route (ROWER)</h1>
     <section class="container">
+      <h1>Rule-based Offensive Warnings En-Route (ROWER)</h1>
+      <h2>Developed by Admiral Hackbar ("It's a hack!")</h2>
       <ul>
         <li v-if="loading">Loading...</li>
         <li
@@ -10,14 +11,22 @@
         >{{source.timeOfInformation}}</li>
       </ul>
       <rn-button @click="updateStore({axios:$axios})">Update Current Position</rn-button>
+      <br>
       <div id="map-wrap" style="height: 600px; width: 100vw;">
         <no-ssr>
           <l-map :zoom="13" :center="getCurrentPosition">
-            <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"/>
+            <l-wms-tile-layer
+              base-url="https://pepys.nelson/geoserver/ows"
+              layers="Hackathon_Geo:GBR_Basemap"
+              :visible="true"
+              name="GBR Basemap"
+              layer-type="base"
+            />
+            <!-- <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"/> -->
             <li v-for="pos in getVesselPositions" :key="pos.lat">
-              <l-marker :lat-lng="pos"/>
+              <l-marker :lat-lng="pos" :icon="detectedShipIcon"/>
             </li>
-            <l-marker :lat-lng="getCurrentPosition"/>
+            <l-marker :lat-lng="getCurrentPosition" :icon="userShipIcon"/>
           </l-map>
         </no-ssr>
       </div>
@@ -55,8 +64,35 @@ const dataSources = gql`
     }
   }
 `;
+import { LMap, LTileLayer, LWMSTileLayer, LMarker, LIcon } from "vue2-leaflet";
 
 export default {
+  components: {
+    LMap,
+    LTileLayer,
+    LMarker,
+    "l-wms-tile-layer": LWMSTileLayer,
+    LIcon
+  },
+  data() {
+    return {
+      userShipIcon: L.icon({
+        iconUrl: "/svg/boat.svg",
+        iconSize: [42, 47],
+        iconAnchor: [21, 47]
+      }),
+      detectedShipIcon: L.icon({
+        iconUrl: "/svg/information-circle.svg",
+        iconSize: [32, 37],
+        iconAnchor: [16, 37]
+      }),
+      shipWarningIcon: L.icon({
+        iconUrl: "/svg/warning-red.svg",
+        iconSize: [32, 37],
+        iconAnchor: [16, 37]
+      })
+    };
+  },
   computed: {
     ...mapGetters(["getCurrentPosition", "getVesselPositions"])
   },

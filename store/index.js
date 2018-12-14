@@ -50,8 +50,8 @@ export const actions = {
 
     commit("UPDATE_VESSEL_POSITIONS", [
       {
-        lat: 47.41422,
-        lng: -1.218482
+        lat: 47.43422,
+        lng: -1.217482
       },
       {
         lat: 47.41222,
