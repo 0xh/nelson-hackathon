@@ -10,6 +10,11 @@ export const state = () => ({
     lat: 37.41322,
     lng: -1.219482
   },
+  currentUserShipData: {
+    timeOfInformation: "10:00:00 14/12/2018 GMT",
+    course: 120,
+    speed: 5
+  },
   vesselPositions: []
 });
 
@@ -22,6 +27,11 @@ export const getters = {
     state.currentPosition.lat,
     state.currentPosition.lng
   ],
+  getCurrentUserShipDataAsString: state =>
+    `Current ship data: 
+    Time: ${state.currentUserShipData.timeOfInformation}
+    Course: ${state.currentUserShipData.course}
+    Speed: ${state.currentUserShipData.speed} knots`,
   getVesselPositions: state =>
     state.vesselPositions.map(pos => [pos.lat, pos.lng])
 };
@@ -30,6 +40,9 @@ export const mutations = {
   UPDATE_CURRENT_POSITION(state, latlng) {
     state.currentPosition.lat = latlng.lat;
     state.currentPosition.lng = latlng.lng;
+  },
+  UPDATE_CURRENT_USER_SHIP_DATA(state, data) {
+    state.currentUserShipData = data;
   },
   UPDATE_VESSEL_POSITIONS(state, positions) {
     state.vesselPositions = positions;
@@ -44,6 +57,15 @@ export const actions = {
         commit("UPDATE_CURRENT_POSITION", response);
       }
     );
+  },
+  updateCurrentShipUserData({ commit }, params) {
+    //TODO change this out for something sensible.
+
+    commit("UPDATE_CURRENT_USER_SHIP_DATA", {
+      timeOfInformation: "10:00:00 14/12/2018 GMT",
+      course: 170,
+      speed: 7
+    });
   },
   updateVesselPositions({ commit }, params) {
     //TODO change this out for something sensible.  This is just POC
@@ -62,6 +84,7 @@ export const actions = {
   updateStore({ dispatch }, params) {
     dispatch("updateCurrentPosition", params);
     dispatch("updateVesselPositions", params);
+    dispatch("updateCurrentShipUserData", params);
   }
 };
 

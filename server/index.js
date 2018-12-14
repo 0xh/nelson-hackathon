@@ -1,56 +1,56 @@
-const express = require('express')
-const cors = require('cors')
-const consola = require('consola')
-const { Nuxt, Builder } = require('nuxt')
-const app = express()
-const host = process.env.HOST || '127.0.0.1'
-const port = process.env.PORT || 3000
-const axios = require('axios')
+const express = require("express");
+const cors = require("cors");
+const consola = require("consola");
+const { Nuxt, Builder } = require("nuxt");
+const app = express();
+const host = process.env.HOST || "127.0.0.1";
+const port = process.env.PORT || 3000;
+const axios = require("axios");
 
-app.set('port', port)
+app.set("port", port);
 
-app.use(cors())
-app.use(express.json());       // to support JSON-encoded bodies
+app.use(cors());
+app.use(express.json()); // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
 // Import and Set Nuxt.js options
-let config = require('../nuxt.config.js')
-config.dev = !(process.env.NODE_ENV === 'production')
+let config = require("../nuxt.config.js");
+config.dev = !(process.env.NODE_ENV === "production");
 
 async function start() {
   // Init Nuxt.js
-  const nuxt = new Nuxt(config)
+  const nuxt = new Nuxt(config);
 
   // Build only in dev mode
   if (config.dev) {
-    const builder = new Builder(nuxt)
-    await builder.build()
+    const builder = new Builder(nuxt);
+    await builder.build();
   }
 
-  app.get('/test', function (req, res, next) {
-    console.log('dsds');
+  app.get("/test", function(req, res, next) {
+    console.log("dsds");
   });
 
-  app.post('/graphql', function(req, res) {
+  app.post("/graphql", function(req, res) {
     // console.log(req.body)
     // res.json({
     //   lat: 47.41322,
     //   lng: -1.219482
     // });
 
-    return axios.post('http://pepys.nelson/requests', {
+    return axios.post("http://pepys.nelson/requests", {
       rejectUnauthorized: false,
       query: req.body
-    })
+    });
   });
 
   // Give nuxt middleware to express
-  app.use(nuxt.render)
+  app.use(nuxt.render);
 
   // Listen the server
-  app.listen(port, host)
+  app.listen(port, host);
   consola.ready({
     message: `Server listening on http://${host}:${port}`,
     badge: true
-  })
+  });
 }
-start()
+start();

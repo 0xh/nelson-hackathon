@@ -26,7 +26,9 @@
             <li v-for="pos in getVesselPositions" :key="pos.lat">
               <l-marker :lat-lng="pos" :icon="detectedShipIcon"/>
             </li>
-            <l-marker :lat-lng="getCurrentPosition" :icon="userShipIcon"/>
+            <l-marker :lat-lng="getCurrentPosition" :icon="userShipIcon">
+              <l-popup :content="getCurrentUserShipDataAsString"/>
+            </l-marker>
           </l-map>
         </no-ssr>
       </div>
@@ -64,7 +66,14 @@ const dataSources = gql`
     }
   }
 `;
-import { LMap, LTileLayer, LWMSTileLayer, LMarker, LIcon } from "vue2-leaflet";
+import {
+  LMap,
+  LTileLayer,
+  LWMSTileLayer,
+  LMarker,
+  LIcon,
+  LPopup
+} from "vue2-leaflet";
 
 export default {
   components: {
@@ -72,7 +81,8 @@ export default {
     LTileLayer,
     LMarker,
     "l-wms-tile-layer": LWMSTileLayer,
-    LIcon
+    LIcon,
+    LPopup
   },
   data() {
     return {
@@ -94,7 +104,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getCurrentPosition", "getVesselPositions"])
+    ...mapGetters([
+      "getCurrentPosition",
+      "getVesselPositions",
+      "getCurrentUserShipDataAsString"
+    ])
   },
   methods: {
     ...mapActions(["updateStore"])
