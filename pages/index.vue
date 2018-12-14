@@ -84,18 +84,18 @@ export default {
       dataSources: [],
       userShipIcon: L.icon({
         iconUrl: "/svg/boat.svg",
-        iconSize: [42, 47],
-        iconAnchor: [21, 47]
+        iconSize: [42, 48],
+        iconAnchor: [21, 24]
       }),
       detectedShipIcon: L.icon({
         iconUrl: "/svg/information-circle.svg",
-        iconSize: [32, 37],
-        iconAnchor: [16, 37]
+        iconSize: [32, 38],
+        iconAnchor: [16, 19]
       }),
       shipWarningIcon: L.icon({
         iconUrl: "/svg/warning-red.svg",
-        iconSize: [32, 37],
-        iconAnchor: [16, 37]
+        iconSize: [32, 38],
+        iconAnchor: [16, 19]
       })
     };
   },
