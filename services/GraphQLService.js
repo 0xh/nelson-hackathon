@@ -103,5 +103,45 @@ export default {
     } catch (e) {
       console.log("err", e);
     }
+  },
+  async getCurrentVesselAisData(axios, currentPosition) {
+    try {
+      //TODO remove hard coding when data is sorted out
+      var currentTime = "2018-05-01T08:16:46.000Z"; //currentPosition.timeOfInformation;
+      var currentTimePlusIncrement = "2018-05-01T23:59:46.000Z"; //currentTime.substring(0, currentTime.length - 2) + "1Z";
+      let query = `query{
+        dataSources(id: "80f486a257624523946c5e80b0fcbe89") {
+          ... on AisDataSource{
+            messages(type: Position, filter:{ receivedTime: { timeGte: "${currentTime}", timeLt: "${currentTimePlusIncrement}"} }) {
+              ... on AisPositionBroadcast {
+                mmsi
+                receivedTime
+                position {
+                  latitude
+                  longitude
+                }
+                heading
+                velocity {
+                  course
+                  speed
+                }
+              }
+            }
+          }
+        }
+      }`;
+      console.log("vessel ais query is:" + query);
+
+      const response = await axios.post("https://pepys.nelson/requests", {
+        query: query
+      });
+      console.log(
+        "vessel ais stuff",
+        response.data.data.dataSources[0].messages
+      );
+      return response.data.data.dataSources[0].messages;
+    } catch (e) {
+      console.log("err", e);
+    }
   }
 };

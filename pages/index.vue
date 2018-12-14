@@ -24,6 +24,7 @@
             <l-marker :lat-lng="getCurrentPosition" :icon="userShipIcon"/>
             <!-- <l-polyline :lat-lngs="getCurrentCourse" color="green"/> -->
             <!-- <l-polyline :lat-lngs="getFutureCourse" color="blue"/> -->
+            <!-- <l-popup :content="getCurrentUserShipDataAsString"/> -->
           </l-map>
         </no-ssr>
       </div>
@@ -67,8 +68,8 @@ import {
   LWMSTileLayer,
   LMarker,
   LIcon,
-  LPopup,
-  LPolyline
+  LPolyline,
+  LPopup
 } from "vue2-leaflet";
 
 export default {
