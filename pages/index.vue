@@ -4,6 +4,8 @@
       <h1>Rule-based Offensive Warnings En-Route (ROWER)</h1>
       <h2>Developed by Admiral Hackbar ("It's a hack!")</h2>
       <rn-button @click="updateStore({axios:$axios})">Update Current Position</rn-button>
+      <p>{{getCurrentCourse}}</p>
+      <b>{{getFutureCourse}}</b>
       <br>
       <div id="map-wrap" style="height: 600px; width: 100vw;">
         <no-ssr>
@@ -20,6 +22,8 @@
               <l-marker :lat-lng="pos" :icon="detectedShipIcon"/>
             </li>
             <l-marker :lat-lng="getCurrentPosition" :icon="userShipIcon"/>
+            <!-- <l-polyline :lat-lngs="getCurrentCourse" color="green"/> -->
+            <l-polyline :lat-lngs="getFutureCourse" color="blue"/>
           </l-map>
         </no-ssr>
       </div>
@@ -57,7 +61,14 @@ const dataSources = gql`
     }
   }
 `;
-import { LMap, LTileLayer, LWMSTileLayer, LMarker, LIcon } from "vue2-leaflet";
+import {
+  LMap,
+  LTileLayer,
+  LWMSTileLayer,
+  LMarker,
+  LIcon,
+  LPolyline
+} from "vue2-leaflet";
 
 export default {
   components: {
@@ -65,7 +76,8 @@ export default {
     LTileLayer,
     LMarker,
     "l-wms-tile-layer": LWMSTileLayer,
-    LIcon
+    LIcon,
+    LPolyline
   },
   data() {
     return {
@@ -89,7 +101,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getCurrentPosition", "getVesselPositions"])
+    ...mapGetters([
+      "getCurrentPosition",
+      "getCurrentVelocity",
+      "getVesselPositions",
+      "getCurrentCourse",
+      "getFutureCourse"
+    ])
   },
   methods: {
     ...mapActions(["updateStore"])
